@@ -7,6 +7,7 @@ const router = express.Router();
 POST http://localhost:5000/student
 {
   "name":"Timothy",
+  "password":"mypassword",
   "age":22,
   "email":"tim@gmail.com",
   "courseId":"PASTE_ID"
@@ -19,6 +20,7 @@ router.post("/", async (req, res) => {
 
 /*
 GET http://localhost:5000/student
+Header: Authorization: Bearer <token>
 */
 // router.get("/", async (req, res) => {
 //   const data = await Student.find().populate({
@@ -43,12 +45,14 @@ GET http://localhost:5000/student
 //   res.json(data);
 // });
 router.get("/", async (req, res) => {
+  console.log("req.student : ", req.student);
   const data = await Student.find().populate("courseId");
   res.json(data);
 });
 
 /*
 PUT http://localhost:5000/student/:id
+Header: Authorization: Bearer <token>
 {
   "age":25
 }
@@ -63,6 +67,7 @@ router.put("/:id", async (req, res) => {
 
 /*
 DELETE http://localhost:5000/student/:id
+Header: Authorization: Bearer <token>
 */
 router.delete("/:id", async (req, res) => {
   const data = await Student.findByIdAndDelete(req.params.id);
